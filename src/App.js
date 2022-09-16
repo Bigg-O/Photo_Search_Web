@@ -17,15 +17,16 @@ export class App extends Component {
       currentPage: 1,
       photos: [],
       onSearchMode: false,
-      query: ""
+      query: "",
+      isLoading: true
     }
   }
 
   componentDidMount() {
-    this.handleDataLoad(this.state.currentPage)
+    this.loadCuratedPhotos(this.state.currentPage)
   }
 
-  handleDataLoad = pageNum => {
+  loadCuratedPhotos = pageNum => {
     axios
       .get(PEXELS_PHOTOS_URL + `/curated?page=${pageNum}&per_page=${PER_PAGE}`, {
         headers: {
@@ -33,34 +34,16 @@ export class App extends Component {
         }
       }).then(resp => {
         console.log(resp)
-        this.setState({ photos: resp.data.photos })
+        this.setState({ 
+          photos: resp.data.photos,
+          isLoading: false 
+        })
       }).catch(err => {
         console.log(err);
       });
   }
 
-  handlePageUpdate = newPage => {
-    if (newPage <= 0) {
-      return;
-    } else {
-      if (this.state.onSearchMode) {
-        this.handlePhotoSearch(this.state.query, newPage)
-      } else {
-        this.handleDataLoad(newPage)
-      }
-      this.setState({ currentPage: newPage })
-    }
-  }
-
-  handleNewPhotoSearch = e => {
-    e.preventDefault()
-    const query = e.target.query.value
-
-    this.handlePhotoSearch(query, 1)
-    this.setState({ query: query })
-  }
-
-  handlePhotoSearch = (query, pageNum) => {
+  loadSearchPhotos = (query, pageNum) => {
     axios.
       get(PEXELS_PHOTOS_URL + `/search?query=${query}&page=${pageNum}&per_page=${PER_PAGE}`, {
         headers: {
@@ -71,23 +54,50 @@ export class App extends Component {
         this.setState({
           photos: resp.data.photos,
           currentPage: pageNum,
-          onSearchMode: true
+          onSearchMode: true,
+          isLoading: false
         })
       }).catch(err => {
         console.log(err);
       });
   }
 
-  handleReset = e => {
-    this.setState({ onSearchMode: false })
-    this.handleDataLoad(1)
+  handlePhotoSearch = e => {
+    e.preventDefault()
+    const query = e.target.query.value
+
+    this.loadSearchPhotos(query, 1)
+    this.setState({ query: query })
+  }
+
+  handlePageUpdate = newPage => {
+    if (newPage <= 0) {
+      return;
+    } else {
+      if (this.state.onSearchMode) {
+        this.loadSearchPhotos(this.state.query, newPage)
+      } else {
+        this.loadCuratedPhotos(newPage)
+      }
+      this.setState({ currentPage: newPage })
+    }
+  }
+
+  handleModeChange = e => {
+    this.setState({ onSearchMode: false, currentPage: 1 })
+    this.loadCuratedPhotos(1)
   }
   
   render() { 
     return (
       <Container>
-        <SearchBar onSearch={this.handleNewPhotoSearch}/>
-        <PhotoContainer onSearchMode={this.state.onSearchMode} photos={this.state.photos}  onReset={this.handleReset}/>
+        <SearchBar onSearch={this.handlePhotoSearch}/>
+        <PhotoContainer 
+          onSearchMode={this.state.onSearchMode}
+          photos={this.state.photos}
+          onReset={this.handleModeChange}
+          isLoading={this.state.isLoading}
+        />
         <PaginationBar currentPage={this.state.currentPage} onPageUpdate={this.handlePageUpdate}/>
       </Container>
     )
