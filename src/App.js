@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SearchBar from './Components/SearchBar'
 import PaginationBar from './Components/PaginationBar'
+import NavigationBar from './Components/NavigationBar';
 import PhotoContainer from './Containers/PhotoContainer'
 import axios from "axios";
 import Container from 'react-bootstrap/Container';
@@ -30,7 +31,7 @@ export class App extends Component {
     axios
       .get(PEXELS_PHOTOS_URL + `/curated?page=${pageNum}&per_page=${PER_PAGE}`, {
         headers: {
-          Authorization: process.env.REACT_APP_PEXELS_KEY2
+          Authorization: process.env.REACT_APP_PEXELS_KEY
         }
       }).then(resp => {
         console.log(resp)
@@ -47,7 +48,7 @@ export class App extends Component {
     axios.
       get(PEXELS_PHOTOS_URL + `/search?query=${query}&page=${pageNum}&per_page=${PER_PAGE}`, {
         headers: {
-          Authorization: process.env.REACT_APP_PEXELS_KEY2
+          Authorization: process.env.REACT_APP_PEXELS_KEY
         }
       }).then(resp => {
         console.log(resp)
@@ -90,7 +91,8 @@ export class App extends Component {
   
   render() { 
     return (
-      <Container>
+      <Container fluid>
+        <NavigationBar/>
         <SearchBar onSearch={this.handlePhotoSearch}/>
         <PhotoContainer 
           onSearchMode={this.state.onSearchMode}
