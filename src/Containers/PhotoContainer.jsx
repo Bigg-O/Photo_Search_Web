@@ -24,7 +24,7 @@ class PhotoContainer extends Component {
                 }
                 <Row xs={1} md={2} >
                         { this.props.photos.map(photo => (
-                            <Card >
+                            <Card style={{width: "18rem"}}>
                                 <Card.Img variant="top" src={photo.src.large}/>
                             </Card>
                         ))}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Pagination from 'react-bootstrap/Pagination';
-import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
 class PaginationBar extends Component {
   validateNum = num => {
@@ -20,17 +20,19 @@ class PaginationBar extends Component {
     const plusTwo = currentPage + 2
 
     return (
-      <Pagination>
-        <Pagination.Prev onClick={() => onPageUpdate(minusOne)}/>
+      <Container> 
+        <Pagination>
+          <Pagination.Prev onClick={() => onPageUpdate(minusOne)}/>
 
-        <Pagination.Item onClick={() => onPageUpdate(minusTwo)}> {validateNum(minusTwo)} </Pagination.Item>
-        <Pagination.Item onClick={() => onPageUpdate(minusOne)}> {validateNum(minusOne)} </Pagination.Item>
-        <Pagination.Item active> {currentPage} </Pagination.Item>
-        <Pagination.Item onClick={() => onPageUpdate(plusOne)}> {plusOne} </Pagination.Item>
-        <Pagination.Item onClick={() => onPageUpdate(plusTwo)}> {plusTwo} </Pagination.Item>
-        
-        <Pagination.Next onClick={() => onPageUpdate(plusOne)}/>
-      </Pagination>
+          <Pagination.Item onClick={() => onPageUpdate(minusTwo)}> {validateNum(minusTwo)} </Pagination.Item>
+          <Pagination.Item onClick={() => onPageUpdate(minusOne)}> {validateNum(minusOne)} </Pagination.Item>
+          <Pagination.Item active> {currentPage} </Pagination.Item>
+          <Pagination.Item onClick={() => onPageUpdate(plusOne)}> {plusOne} </Pagination.Item>
+          <Pagination.Item onClick={() => onPageUpdate(plusTwo)}> {plusTwo} </Pagination.Item>
+          
+          <Pagination.Next onClick={() => onPageUpdate(plusOne)}/>
+        </Pagination>
+      </Container>
     );
   }
 }
