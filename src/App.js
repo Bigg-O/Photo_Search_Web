@@ -18,8 +18,8 @@ export class App extends Component {
       currentPage: 1,
       photos: [],
       onSearchMode: false,
-      query: "",
-      isLoading: true
+      isLoading: true,
+      query: ""
     }
   }
 
@@ -68,7 +68,10 @@ export class App extends Component {
     const query = e.target.query.value
 
     this.loadSearchPhotos(query, 1)
-    this.setState({ query: query })
+    this.setState({
+      query: query,
+      isLoading: true
+    })
   }
 
   handlePageUpdate = newPage => {
@@ -80,12 +83,15 @@ export class App extends Component {
       } else {
         this.loadCuratedPhotos(newPage)
       }
-      this.setState({ currentPage: newPage })
+      this.setState({
+        currentPage: newPage,
+        isLoading: true
+      })
     }
   }
 
   handleModeChange = e => {
-    this.setState({ onSearchMode: false, currentPage: 1 })
+    this.setState({ onSearchMode: false, currentPage: 1, isLoading: true })
     this.loadCuratedPhotos(1)
   }
   
@@ -106,5 +112,4 @@ export class App extends Component {
   }
 }
   
-
 export default App;
