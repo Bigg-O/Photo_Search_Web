@@ -28,8 +28,7 @@ export class App extends Component {
   }
 
   loadCuratedPhotos = pageNum => {
-    axios
-      .get(PEXELS_PHOTOS_URL + `/curated?page=${pageNum}&per_page=${PER_PAGE}`, {
+    axios.get(PEXELS_PHOTOS_URL + `/curated?page=${pageNum}&per_page=${PER_PAGE}`, {
         headers: {
           Authorization: process.env.REACT_APP_PEXELS_KEY
         }
@@ -45,8 +44,7 @@ export class App extends Component {
   }
 
   loadSearchPhotos = (query, pageNum) => {
-    axios.
-      get(PEXELS_PHOTOS_URL + `/search?query=${query}&page=${pageNum}&per_page=${PER_PAGE}`, {
+    axios.get(PEXELS_PHOTOS_URL + `/search?query=${query}&page=${pageNum}&per_page=${PER_PAGE}`, {
         headers: {
           Authorization: process.env.REACT_APP_PEXELS_KEY
         }
