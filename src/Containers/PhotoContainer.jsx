@@ -6,10 +6,12 @@ import Alert from 'react-bootstrap/Alert';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
+const PER_PAGE = 10
+
 class PhotoContainer extends Component {
     render() {
         return (
-            <Container>
+            <Container fluid>
                 { this.props.onSearchMode
                     ?
                         <Container>
@@ -24,8 +26,8 @@ class PhotoContainer extends Component {
                 <Row xs={1} md={2} >
                     { this.props.isLoading
                         ?
-                            // This is placeholder while photos are being fetched.
-                            Array.from({ length: 10 }).map((_, idx) => (
+                            // These are placeholders while photos are being fetched.
+                            Array.from({ length: PER_PAGE }).map((_, idx) => (
                                 <Card style={{width: "18rem"}}>
                                     <Card.Body>
                                         <Card.Title>Place Holder</Card.Title>
@@ -41,7 +43,11 @@ class PhotoContainer extends Component {
                         :
                             this.props.photos.map(photo => (
                                 <Card style={{width: "18rem"}}>
-                                    <Card.Img variant="top" src={photo.src.large}/>
+                                    <Card.Body>
+                                        <Card.Img variant="top" src={photo.src.large}/>
+                                        <Card.Title>Photographer: </Card.Title>
+                                        <a href={photo.photographer_url}>{photo.photographer}</a>
+                                    </Card.Body>
                                 </Card>
                             ))
                     }

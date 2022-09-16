@@ -20,7 +20,7 @@ class PaginationBar extends Component {
     const plusTwo = currentPage + 2
 
     return (
-      <Container> 
+      <Container fluid> 
         <Pagination>
           <Pagination.Prev onClick={() => onPageUpdate(minusOne)}/>
 
